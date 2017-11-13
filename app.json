@@ -1,0 +1,38 @@
+{
+    "pages": [
+        "pages/calendar/calendar",
+        "pages/index/index"
+    ],
+    "window":
+    {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#c5000b",
+        "navigationBarTitleText": "",
+        "navigationBarTextStyle": "light",
+        "enablePullDownRefresh": false
+    },
+    "tabBar":
+    {
+        "color": "#7f8389",
+        "selectedColor": "#d00003",
+        "borderStyle": "light",
+        "backgroundColor": "#f7f7fa",
+        "list": [
+        {
+            "pagePath": "pages/calendar/calendar",
+            "text": "calendar"
+        },
+        {
+            "pagePath": "pages/index/index",
+            "text": "index"
+        }]
+    },
+    "networkTimeout":
+    {
+        "request": 10000,
+        "connectSocket": 10000,
+        "uploadFile": 10000,
+        "downloadFile": 20000
+    },
+    "debug": false
+}

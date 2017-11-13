@@ -1,0 +1,108 @@
+.project-fixd-button {
+    height:240rpx;
+}
+/* weeks start*/
+.calendar-weeks view{
+    display: inline-block;
+}
+.calendar-weeks {
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 100;
+    background:#fff;
+    width: 100%;
+    height: 30px;
+    border-bottom:1px solid rgb(136,136,136);
+}
+.calendar-weeks .weeks-content {
+    width: 700rpx;
+    color:#888;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+.calendar-weeks .weeks-content view{
+    line-height: 60rpx;
+    text-align: center;
+    flex: 1;
+}
+/* weeks end*/
+/* day start*/
+.calendar-all {
+    overflow: hidden;
+}
+.calendar-day {
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 700rpx;
+    margin: auto;
+    padding-top:30rpx;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.calendar-day .every-day {
+    box-sizing: border-box;
+    width: 100rpx;
+    height: 150rpx;
+    padding-top: 10rpx;
+    color:#444;
+    text-align: center;
+}
+/* 如果日子是今天的样式 start*/
+.calendar-day view.nowday {
+    background: #ff9090;
+    color:#fff;
+    border-radius: 8rpx;
+}
+.calendar-day .number {
+    font-size: 26rpx;
+}
+/* 如果日子是今天的样式 end*/
+
+/* 有任务的数字的下划线 start*/
+.calendar-day .nowday .number text.has-task-num {
+    font-size: 28rpx;
+    border-bottom:2px solid #fff;
+}
+.calendar-day .number text.has-task-num {
+    border-bottom:2px solid rgb(255,144,144);
+}
+/* 有任务的数字的下划线 end */
+
+.calendar-day .has-task {
+    font-size: 20rpx;
+    color:#888;
+    line-height: 1.4;
+    max-width: 86rpx;
+    overflow: hidden;
+    margin: auto;
+    text-align: center;
+    height: 24rpx;
+}
+.calendar-day .task-num {
+    color:#ff9090;
+}
+.calendar-day .nowday .has-task {
+    color:#fff;
+}
+/* day end */
+
+/* 横条月份样式 */
+.calendar-month {
+    width:100%;
+    height:45rpx;
+    line-height: 45rpx;
+    color:#888;
+    font-size: 28rpx;
+    background:#f8f8f8;
+    padding-left:30rpx;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
