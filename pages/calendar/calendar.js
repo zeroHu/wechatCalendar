@@ -2,68 +2,66 @@ Page({
     data:{
         weeks: ['日','一','二','三','四','五','六'],
         allMonthNumber: [],
-        // 当前年月日   '2016-11-01'
-        getNowYear: new Date().getFullYear(),//年
-        getNowMonth: new Date().getMonth(),//月
-        getNowDay: new Date().getDate(),//日
-        windowHeight: 650,//设置最大初始值
-        /***********下面是一次性渲染4个月数据无上限加载的参数***********/
+        getNowYear: new Date().getFullYear(),
+        getNowMonth: new Date().getMonth(),
+        getNowDay: new Date().getDate(),
+        windowHeight: 650,// 设置屏幕高度最大初始值
         // 计算Reach 年月
         computReachYear: new Date().getFullYear(),
         computReachMonth: new Date().getMonth(),
         // 计算Pull 年月
         computPullYear: new Date().getFullYear(),
         computPullMonth: new Date().getMonth(),
-        numPageMonth: 6,//当前页面一次性渲染多少个月的
-        pullTimes: 0,
+        numPageMonth: 6, // 页面一次性渲染多少个月的设置数字
+        pullTimes: 0
     },
-    // init 页面入口
     onLoad(){
-        //31是weeks 高度
+        // 设置高度撑起 calendar
         this.setData({
-            'windowHeight':wx.getSystemInfoSync().windowHeight
+            'windowHeight': wx.getSystemInfoSync().windowHeight
         });
-        // 每次渲染4个月日历和数据
-        this.getMoreDate('reachbottom','scrollinit');
+        // 默认初始化加载当前月数后的日历
+        this.getMoreDate('reachbottom', 'scrollinit');
     },
     // 计算每月的天数
     computeMonthDayNum(year){
-        var monthday = [31,28,31,30,31,30,31,31,30,31,30,31];
+        var monthDay = [31,28,31,30,31,30,31,31,30,31,30,31];
         // 闰年计算
         if ((year % 400 === 0) || (year % 4 === 0 && year % 100 !== 0)) {
-            monthday[1] = 29;
+            monthDay[1] = 29;
         }
-        return monthday;
+        return monthDay;
     },
     // 计算每月的日历number
-    getDayNumber(year,month){
+    getDayNumber(year, month){
         var firstDay = (new Date(year, month, 1)).getDay(), //每月第一天是星期几[0-6]对应星期天-星期六
             weekNumArr = [], //计算number
-            addnum = 0,
-            addnumflag = false,
-            monthdayArr = this.computeMonthDayNum(year),
-            monthdaynum = 5*7; //每月的日子的总数 6*7  或者 5*7
+            addNum = 0,
+            addNumFlag = false,
+            monthDayArr = this.computeMonthDayNum(year),
+            monthDayNum = 5*7; // 每月的日子的总数 6*7  或者 5*7 思路是 当前月份多多是 31天 可能第一天是星期一或者星期天
+
         // 灵活处理每个月份的 monthdaynum
-        if((monthdayArr[month] >29 && firstDay == 6) || ( monthdayArr[month] >30 && firstDay == 5)){
-            monthdaynum = 6*7;
+        if((monthDayArr[month] > 29 && firstDay == 6) || ( monthDayArr[month] > 30 && firstDay == 5)){
+            monthDayNum = 6*7;
         }
         // 循环月份
-        for(var i = 0; i <monthdaynum; i++){
+        for(var i = 0; i < monthDayNum; i++){
             // 计算上月的日子
-            if(i<firstDay){
+            if(i < firstDay){
                 weekNumArr[i] = {
                     num: ''
                 };
             }
             // 计算当月或当月和下月的日子
-            else if(i>=firstDay){
-                if(addnum < monthdayArr[month]){
-                    addnum ++;
+            else if(i >= firstDay){
+                if(addNum < monthDayArr[month]){
+                    addNum ++;
                 }else{
-                    addnumflag = true;
+                    addNumFlag = true;
                 }
                 weekNumArr[i] = {
-                    num: addnumflag ? '': addnum
+                    num: addNumFlag ? '': addNum
                 };
             }
         }
@@ -73,37 +71,15 @@ Page({
             'weekNumArr':weekNumArr
         };
     },
-    // 一次性渲染2年日历
-    getTwoYearDate(){
-        let self = this.data,
-            allMonthNumber= self.allMonthNumber,
-            gyears = self.getNowYear-1,
-            gmonth = self.getNowMonth;
-        // 计算渲染页面的日子
-        for( let i=0; i <self.allPageMonth;i++ ){
-            allMonthNumber.push(this.getDayNumber(gyears,gmonth));
-            gmonth ++;
-            if(gmonth > 11){
-                gmonth = 0;
-                gyears ++;
-            }
-        }
-        // 更新视图
-        this.setData({
-            'allMonthNumber': allMonthNumber,
-            'scrollDom': `wx${self.getNowYear}${self.getNowMonth}`
-        });
-    },
-    // 每次渲染4个月日历和数据
-    getMoreDate(type,init){
+    // 渲染日历和数据
+    getMoreDate(type, init){
         var self = this.data,
             allMonthNumber= self.allMonthNumber,
-            scrollDom = '',
             reachYear = self.computReachYear,
             reachMonth = self.computReachMonth,
             pullYear = self.computPullYear,
             pullMonth = self.computPullMonth;
-
+        // 初始第一次上拉
         if(self.pullTimes == 0){
             // 计算下拉
             if(pullMonth == 0){
@@ -113,23 +89,19 @@ Page({
                 pullMonth --;
             }
         }
-        // scrollDom 处理
         if(init == 'scrollinit'){
-            scrollDom = 'wx'+reachYear+reachMonth;
-            // 处理-1，0，1，2月份
+            // 处理 -1，0，1，2月份
             if(reachMonth == 0){
                 reachYear --;
                 reachMonth = 11;
             }else{
                 reachMonth --;
             }
-        }else if(init == 'scrollpull'){
-            scrollDom = 'wx'+pullYear+pullMonth;
         }
         // 计算渲染页面的日子
-        for( let i=0; i <self.numPageMonth;i++ ){
+        for( let i=0; i < self.numPageMonth; i++ ){
             // 月份和年份增加处理
-            if(type == 'reachbottom'){
+            if (type == 'reachbottom') {
                 // 添加数据
                 allMonthNumber.push(this.getDayNumber(reachYear,reachMonth));
                 // 增加月份
@@ -141,7 +113,7 @@ Page({
                 // 记录新的年份和月份
                 self.computReachYear = reachYear;
                 self.computReachMonth = reachMonth;
-            }else if(type == 'pulldown'){
+            } else if (type == 'pulldown') {
                 // 减少月份
                 pullMonth --;
                 if(pullMonth < 0){
@@ -157,29 +129,29 @@ Page({
         }
         // 更新视图
         this.setData({
-            'allMonthNumber': allMonthNumber,
-            'scrollDom': scrollDom
+            'allMonthNumber': allMonthNumber
         });
+        // 设置恢复Flag
         setTimeout(() => {
-            this.data.pullflag = false;
-            this.data.reachflag = false;
-        },800);
+            this.data.pullFlag = false;
+            this.data.reachFlag = false;
+        }, 500);
     },
     // 每次渲染个月日历和数据
     scrollCalendar(event){
         // 监听滚动时间 触顶触发
         let scrolldata = event.detail;
-        if(scrolldata.scrollTop == 0 && !!!this.data.pullflag){
-            this.data.pullflag = true;
-            this.getMoreDate('pulldown','scrollpull');
+        if(scrolldata.scrollTop === 0 && !!!this.data.pullFlag){
+            this.data.pullFlag = true;
+            this.getMoreDate('pulldown', 'scrollpull');
             this.data.pullTimes ++;
         }
     },
     // scrollview 上拉触底事件的处理函数
     pageLower(){
-        if(!!!this.data.reachflag){
-            this.data.reachflag = true;
-            this.getMoreDate('reachbottom','pageLower');
+        if(!!!this.data.reachFlag){
+            this.data.reachFlag = true;
+            this.getMoreDate('reachbottom', 'pageLower');
         }
     }
 });

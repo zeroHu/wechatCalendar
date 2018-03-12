@@ -7,14 +7,14 @@
         </view>
     </view>
     <!-- 日期 -->
-    <scroll-view scroll-y="true" style="width:100%;height:{{windowHeight}}px;margin-top:31px;overflow:hidden;" upper-threshold="1" lower-threshold="1" bindscroll="scrollCalendar" bindscrolltolower="pageLower" scroll-into-view="{{ scrollDom }}">
+    <scroll-view scroll-y="true" style="width:100%; height:{{ windowHeight }}px; margin-top:31px; overflow:hidden;" upper-threshold="1" lower-threshold="1" bindscroll="scrollCalendar" bindscrolltolower="pageLower" scroll-into-view="{{ scrollDom }}">
         <view class="calendar-all">
             <view class="calendar-each"  wx:for="{{ allMonthNumber }}" wx:key="" wx:for-item="mitem">
-                <view class="calendar-month" id="wx{{mitem.nowYear}}{{mitem.nowMonth}}"> {{ mitem.nowYear }}年 {{ mitem.nowMonth+1 }}月</view>
+                <view class="calendar-month" id="wx{{ mitem.nowYear }}{{ mitem.nowMonth }}"> {{ mitem.nowYear }}年 {{ mitem.nowMonth + 1 }}月</view>
                 <view class="calendar-day">
                     <block wx:for="{{ mitem.weekNumArr }}" wx:key="" wx:for-item="ditem">
                         <!-- 判断如果是今天 加上nowday class -->
-                        <view class="every-day {{ (getNowYear == mitem.nowYear && getNowMonth == mitem.nowMonth && getNowDay == ditem.num ) ? 'nowday' : '' }}" data-searchyear="{{ mitem.nowYear }}" data-searchmonth="{{ mitem.nowMonth+1 }}" data-searchday="{{ ditem.num }}" data-tasks="{{ ditem.tasks }}">
+                        <view class="every-day {{ ( getNowYear == mitem.nowYear && getNowMonth == mitem.nowMonth && getNowDay == ditem.num ) ? 'nowday' : '' }}" data-searchyear="{{ mitem.nowYear }}" data-searchmonth="{{ mitem.nowMonth + 1 }}" data-searchday="{{ ditem.num }}" data-tasks="{{ ditem.tasks }}">
                             <view class="number">
                                 <text class="{{ ditem.tasks ? 'has-task-num' : ''}}">{{ ditem.num }}</text>
                             </view>
