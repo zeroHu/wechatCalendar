@@ -21,6 +21,6 @@ calendar.wxml 里面有这样一段代码
 ##### tips: 写得比较粗糙，可以进行修改
 
 ##### 日历成果图
-![图片](http://oqt0cgoq9.bkt.clouddn.com/calendar.jpg)
-![图片](http://oqt0cgoq9.bkt.clouddn.com/calendar-2.jpg)
+![图片](http://static.zeroyh.cn/calendar.jpg)
+![图片](http://static.zeroyh.cn/calendar-2.jpg)
 
